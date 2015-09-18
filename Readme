@@ -1,0 +1,39 @@
+INSTALL
+$ phpize
+$  ./configure --enable-logscribe
+$ make
+$ make install
+
+- add "extension=logscribe.so" into php.ini
+- ./configure --help for more options
+
+USAGE: scribelog(char* log, char* category, char* host, int port);
+- log: string send to scribe
+- category (optional): category of log; default is "default"
+- host (optional): ip of scribe server; default is localhost
+- port (optional): port of scribe service; default is 1463
+
+EXAMPLE: 
+	<?php scribelog('Helluuuuu', 'test'); ?>
+	<?php $res=scribelog('Helluuuuu', 'test'); echo $res ?>
+	
+RETURN:
+	0: OK
+	1: params error
+	2: open connection to scribe server failed
+	3: write log failed
+	4: close connection failed
+
+BENCHMARK:
+	[root@localhost testphpextension]# php testscribepure.php
+	DONE after 0.0064969062805176 seconds
+	[root@localhost testphpextension]# php testscribepure.php
+	DONE after 0.0063490867614746 seconds
+	
+	[root@localhost testphpextension]# php testscribeext.php 			// first 
+	DONE after 0.0011157989501953 seconds
+	[root@localhost testphpextension]# php testscribeext.php
+	DONE after 0.0007472038269043 seconds
+
+
+
